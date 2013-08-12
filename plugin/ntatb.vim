@@ -7,7 +7,7 @@
 " Authors:     Wenlong Che <wenlong.che@gmail.com>                             "
 "              Fortime Fan <palfortime@gmail.com>                              "
 " GitHub:      https://github.com/fortime/ntatb                                "
-" Version:     0.1                                                             "
+" Version:     0.2                                                             "
 " Last Change: August 11th, 2013                                               "
 " Licence:     This program is free software; you can redistribute it and / or "
 "              modify it under the terms of the GNU General Public License as  "
@@ -26,6 +26,8 @@ let loaded_ntatb = 1
 let s:save_cpo = &cpoptions
 
 set cpoptions&vim
+
+autocmd bufenter * call <SID>Ntatb_CloseIfOnly()
 
 " }}}
 
@@ -79,9 +81,35 @@ let s:tagbar_switch        = 0
 let s:tagbar_title         = "__Tagbar__"
 
 let s:nerd_tree_switch       = 0
-let s:nerd_tree_title        = "_NERD_tree_"
+let s:nerd_tree_title        = "NERD_tree_1"
+
+let s:pluginList = [
+        \ s:tagbar_title,
+        \ s:nerd_tree_title
+    \]
 
 " }}}
+
+" Ntatb_CloseIfOnly() {{{
+
+" auto quit vim, if there are only ntatb's window.
+
+function! <SID>Ntatb_CloseIfOnly()
+    " no ntatb's window, exit
+    if s:Ntatb_switch == 0
+        return
+    endif
+    " window's amount is more than ntatb's, exit
+    let l:amount = winnr("$")
+    if l:amount > len(s:pluginList)
+        return
+    endif
+    " find non ntatb's window
+    let l:rtn = <SID>Ntatb_GetEditWin()
+    if l:rtn == -1
+        qa
+    endif
+endfunction " }}}
 
 " Ntatb_InitTagbar() {{{
 
@@ -155,17 +183,12 @@ function! <SID>Ntatb_GetEditWin()
 
     let l:i = 1
 
-    let l:pluginList = [
-            \ s:tagbar_title,
-            \ s:nerd_tree_title
-        \]
-
     while 1
         " use for flaging whether window not in plugin list is found or not.
         let l:found = 1
 
         " compatible for Named Buffer Version and Preview Window Version
-        for item in l:pluginList
+        for item in s:pluginList
             if (bufname(winbufnr(l:i)) ==# item)
                 let l:found = 0
                 break
@@ -267,7 +290,6 @@ endfunction " }}}
 " The User Interface function to open / close the Tagbar
 
 function! <SID>Ntatb_ToggleTagbar()
-    "TODO"
 
     if s:Ntatb_tabPage == 0
         let s:Ntatb_tabPage = tabpagenr()
