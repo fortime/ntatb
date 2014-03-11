@@ -117,15 +117,25 @@ endfunction " }}}
 
 function! <SID>Ntatb_InitTagbar()
     " Split to the left side of the screen
-    let g:tagbar_left = 1
+    if exists('g:tagbar_left') == 0
+        let g:tagbar_left = 1
+    endif
     " Set the window width
-    let g:tagbar_width = 30
+    if exists('g:tagbar_width') == 0
+        let g:tagbar_width = 30
+    endif
     " Sort by file order
-    let g:tagbar_sort = 1
+    if exists('g:tagbar_sort') == 0
+        let g:tagbar_sort = 1
+    endif
     " Use compact view to save screen real estate
-    let g:tagbar_compact = 1
+    if exists('g:tagbar_compact') == 0
+        let g:tagbar_compact = 1
+    endif
     " Auto open a closed fold if the current tag is in it
-    let g:tagbar_autoshowtag = 1
+    if exists('g:tagbar_autoshowtag') == 0
+        let g:tagbar_autoshowtag = 1
+    endif
 
     " If you are the last, kill yourself
     "let g:Tlist_Exit_OnlyWindow = 1
@@ -145,13 +155,21 @@ endfunction " }}}
 function! <SID>Ntatb_InitNERDTree()
 
     " Set the window width
-    let g:NERDTreeWinSize = 23
+    if exists('g:NERDTreeWinSize') == 0
+        let g:NERDTreeWinSize = 23
+    endif
     " Set the window position
-    let g:NERDTreeWinPos = "right"
+    if exists('g:NERDTreeWinPos') == 0
+        let g:NERDTreeWinPos = "right"
+    endif
     " Auto centre
-    let g:NERDTreeAutoCenter = 0
+    if exists('g:NERDTreeAutoCenter') == 0
+        let g:NERDTreeAutoCenter = 0
+    endif
     " Not Highlight the cursor line
-    let g:NERDTreeHighlightCursorline = 0
+    if exists('g:NERDTreeHighlightCursorline') == 0
+        let g:NERDTreeHighlightCursorline = 0
+    endif
 
 endfunction " }}}
 
